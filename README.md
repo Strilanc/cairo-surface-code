@@ -6,14 +6,26 @@ The circuits implement the surface code using pair measurements that follow a pe
 Regenerating the plots in the paper, from scratch, can be done by running these commands:
 
 ```bash
+# STEP 0: SETUP ENVIRONMENT
+# This step heavily depends on your OS and preferences.
+# These specific instructions create a python 3.9 virtualenv assuming a debian-like linux.
+sudo apt install python3.9-venv
+python3 -m venv .venv
+source .venv/bin/activate
+# Install python dependencies into venv:
+pip install -r requirements.txt
+
+# STEP 1: MAKE CIRCUITS.
 # NOTE: We ran a lot of circuit variations.
 # Consider editing this script to generate fewer variations and smaller circuits.
-./step1_make_circuits.sh out/circuits
+./step1_make_circuits.sh out/circuits --no-honeycomb
 
+# Step 2: SAMPLE CIRCUITS.
 # NOTE: We actually used a different faster decoder, and more than 4 worker processes.
 # Consider editing this script to take fewer shots, wait for fewer errors, etc.
 ./step2_circuits_to_stats.sh out/circuits out/stats.csv 4 pymatching
 
+# STEP 3: PLOT RESULTS.
 ./step3_stats_to_plots.sh out/stats.csv out/plots
 ```
 
