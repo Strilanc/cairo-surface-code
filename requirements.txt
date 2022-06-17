@@ -1,0 +1,6 @@
+stim == 1.9.dev1653884728
+sinter == 1.9.dev1653884728
+matplotlib
+numpy
+pytest
+scipy
