@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 CIRCUIT_DIR=$1
 OUT_CSV=$2
 PROCESSES=$3

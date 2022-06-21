@@ -16,6 +16,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--csv", required=True, nargs='+', type=str)
     parser.add_argument("--chunking", required=True, choices=['shot', 'd', 'round'])
+    parser.add_argument("--skip_d", default=(), nargs='+', type=int)
+    parser.add_argument("--skip_p", default=(), nargs='+', type=float)
+    parser.add_argument("--skip_b", default=(), nargs='+', type=str)
     parser.add_argument('--show', action='store_true')
     parser.add_argument('--save', default=None, type=str)
     args = parser.parse_args()
@@ -39,6 +42,10 @@ def main():
     x_func = lambda stat: stat.json_metadata['p']
 
     samples = sinter.stats_from_csv_files(*args.csv)
+    samples = [e for e in samples
+               if e.json_metadata['d'] not in args.skip_d
+               and e.json_metadata['p'] not in args.skip_p
+               and e.json_metadata['b'] not in args.skip_b]
 
     def curve_func(stat: sinter.TaskStats) -> str:
         m = stat.json_metadata

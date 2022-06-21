@@ -20,6 +20,8 @@ def main():
     parser.add_argument("--csv", required=True, nargs='+', type=str)
     parser.add_argument("--chunking", required=True, choices=['shot', 'd', 'round'])
     parser.add_argument("--skip_d", default=(), nargs='+', type=int)
+    parser.add_argument("--skip_p", default=(), nargs='+', type=float)
+    parser.add_argument("--skip_b", default=(), nargs='+', type=str)
     parser.add_argument('--show', action='store_true')
     parser.add_argument('--semi_systemic_bayesian', action='store_true')
     parser.add_argument('--save', default=None, type=str)
@@ -31,7 +33,10 @@ def main():
     COLORS: List[str] = list(matplotlib.colors.TABLEAU_COLORS) * 3
 
     samples = sinter.stats_from_csv_files(*args.csv)
-    samples = [e for e in samples if e.json_metadata['d'] not in args.skip_d]
+    samples = [e for e in samples
+               if e.json_metadata['d'] not in args.skip_d
+               and e.json_metadata['p'] not in args.skip_p
+               and e.json_metadata['b'] not in args.skip_b]
 
     if args.chunking == 'round':
         pieces_func = lambda stat: stat.json_metadata['r']

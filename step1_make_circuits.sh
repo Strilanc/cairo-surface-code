@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 CIRCUIT_DIR=$1
 HCB_PATH=$2
 

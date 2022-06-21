@@ -30,6 +30,7 @@ def main():
     parser.add_argument("--chunking", required=True, choices=['shot', 'd', 'round'])
     parser.add_argument("--skip_d", default=(), nargs='+', type=int)
     parser.add_argument("--skip_p", default=(), nargs='+', type=float)
+    parser.add_argument("--skip_b", default=(), nargs='+', type=str)
     parser.add_argument('--semi_systemic_bayesian', action='store_true')
     parser.add_argument('--show', action='store_true')
     parser.add_argument('--save', default=None, type=str)
@@ -54,7 +55,10 @@ def main():
     s2p = lambda p, stat: sinter.shot_error_rate_to_piece_error_rate(shot_error_rate=p, pieces=pieces_func(stat))
 
     samples = sinter.stats_from_csv_files(*args.csv)
-    samples = [e for e in samples if e.json_metadata['d'] not in args.skip_d and e.json_metadata['p'] not in args.skip_p]
+    samples = [e for e in samples
+               if e.json_metadata['d'] not in args.skip_d
+               and e.json_metadata['p'] not in args.skip_p
+               and e.json_metadata['b'] not in args.skip_b]
     marker_key = lambda e: e.json_metadata['p']
     color_key = lambda e: e.json_metadata['p']
     group_func = lambda e: e.json_metadata['c']
