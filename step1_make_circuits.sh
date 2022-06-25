@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 CIRCUIT_DIR=$1
 HCB_PATH=$2
 
@@ -21,7 +23,7 @@ fi
 
 PYTHONPATH="${pypath}" python3 src/parsurf/scripts/generate_circuit_files.py \
     --diam 5 7 9 11 13 15 17 19 \
-    --basis X \
+    --basis X Z \
     --noise 0.0001 0.0002 0.0003 0.0005 0.0008 0.001 0.002 0.003 0.004 0.005 0.006 0.007 0.008 0.009 0.01 \
     --round_factors 3 \
     --honeycomb "${honeycomb_switch}" \
